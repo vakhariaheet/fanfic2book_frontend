@@ -1,0 +1,113 @@
+@import '../../Variables.scss';
+nav {
+	height: 5rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #fff;
+
+	margin-top: 3rem;
+}
+.toggle {
+	width: 8rem;
+	height: 4rem;
+	border-radius: 5rem;
+	border: 1px solid $color-secondary;
+	background-color: $color-tertiary;
+	position: relative;
+	cursor: pointer;
+
+	transition: 0.1s all ease-in-out;
+	&-btn {
+		position: absolute;
+		left: 0;
+		top: -1px;
+		width: 4rem;
+		height: 4rem;
+		border-radius: 50%;
+		background-color: $color-secondary;
+		transition: 0.1s all ease-in-out;
+		padding: 0.5rem;
+		svg {
+			height: 100%;
+			width: 100%;
+		}
+	}
+}
+#mode {
+	display: none;
+}
+.downloads {
+	span {
+		font-size: 3rem;
+	}
+}
+.navbar--dropdown {
+	position: relative;
+
+	padding: 1rem;
+	border-bottom: none !important;
+	user-select: none;
+	cursor: pointer;
+
+	&--content {
+		width: 100%;
+		position: absolute;
+		border: 1px solid $color-secondary;
+		border-top: none;
+		box-sizing: content-box;
+		transform: translateX(-1.1rem);
+		padding-bottom: 2rem;
+		.info {
+			margin: 1rem 0;
+			font-size: 1.5rem;
+			color: rgb(104, 100, 100);
+		}
+		&--item {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			a {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				max-width: 10rem;
+				height: 4rem;
+				width: 100%;
+				margin-right: 2rem;
+				font-size: 1.7rem;
+				box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.1);
+				border-radius: 1rem;
+				background-color: $color-primary;
+				color: $color-tertiary;
+				cursor: pointer;
+				padding: 1rem;
+				text-decoration: none;
+				transition: 0.1s all ease-in-out;
+				&:active {
+					transform: translateY(2px) scale(0.99);
+					box-shadow: none;
+				}
+			}
+		}
+	}
+}
+.user-downloads {
+	color: $color-primary;
+}
+.menu {
+	width: 25%;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+.nav--link a {
+	font-size: 2rem;
+	color: $color-secondary;
+	text-decoration: none;
+	transition: 0.1s all ease-in-out;
+	&:hover {
+		color: $color-primary;
+	}
+}
