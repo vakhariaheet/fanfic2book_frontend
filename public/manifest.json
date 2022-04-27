@@ -1,6 +1,5 @@
 {
-	"short_name": "React App",
-	"name": "Create React App Sample",
+	"name": "FanFic2Book",
 	"icons": [
 		{
 			"src": "./logos/Logo-72x72.png",
@@ -53,6 +52,6 @@
 	],
 	"start_url": ".",
 	"display": "standalone",
-	"theme_color": "#000000",
-	"background_color": "#ffffff"
+	"theme_color": "#636cff",
+	"background_color": "#636cff"
 }
