@@ -7,13 +7,26 @@ export interface CardProps {
 	book: bookType;
 	link?: {
 		name: string;
-		link: string;
+		buffer: Buffer;
 		uid: string;
 	};
 }
 
 const Card: React.FC<CardProps> = ({ book, link }) => {
-	console.log(link);
+	const download = () => {
+		if (!link) return;
+		const anchor = document.createElement('a');
+		const blob = new Blob([link.buffer], { type: 'application/zip' });
+		const url = URL.createObjectURL(blob);
+
+		anchor.href = url;
+		anchor.download = link.name;
+		document.body.appendChild(anchor);
+		anchor.click();
+
+		document.body.removeChild(anchor);
+		window.URL.revokeObjectURL(url);
+	};
 	return (
 		<div className='card'>
 			<div className='card--image'>
@@ -51,9 +64,9 @@ const Card: React.FC<CardProps> = ({ book, link }) => {
 				</p>
 				{link && (
 					<div className='btns'>
-						<a className='btn' download={`${link.name}`} href={`${link.link}`}>
+						<button className='btn' onClick={download}>
 							Download
-						</a>
+						</button>
 						<button className='btn'>Send To Email</button>
 					</div>
 				)}

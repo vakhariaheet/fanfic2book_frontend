@@ -1,0 +1,21 @@
+@import './../../Variables.scss';
+
+.page-controls {
+	margin-bottom: 3rem;
+	&__button {
+		background-color: transparent;
+		border: none;
+		margin-right: 0.6rem;
+		cursor: pointer;
+		svg {
+			stroke: $color-secondary;
+			stroke-width: 1px;
+			fill: none;
+		}
+		&--active {
+			svg {
+				fill: $color-secondary;
+			}
+		}
+	}
+}

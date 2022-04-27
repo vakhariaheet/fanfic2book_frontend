@@ -42,54 +42,96 @@ nav {
 		font-size: 3rem;
 	}
 }
-.navbar--dropdown {
-	position: relative;
-
-	padding: 1rem;
-	border-bottom: none !important;
-	user-select: none;
-	cursor: pointer;
-
-	&--content {
+.navbar {
+	&--dropdown {
+		position: relative;
 		width: 100%;
-		position: absolute;
-		border: 1px solid $color-secondary;
-		border-top: none;
-		box-sizing: content-box;
-		transform: translateX(-1.1rem);
-		padding-bottom: 2rem;
-		.info {
-			margin: 1rem 0;
-			font-size: 1.5rem;
-			color: rgb(104, 100, 100);
-		}
-		&--item {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-
-			a {
+		padding: 1rem;
+		border-radius: 2rem 2rem 0 0;
+		user-select: none;
+		cursor: pointer;
+		border-bottom: none !important;
+		&--content {
+			width: 100%;
+			position: absolute;
+			border: 1px solid $color-secondary;
+			border-radius: 0 0 2rem 2rem;
+			border-top: none;
+			box-sizing: content-box;
+			transform: translateX(-1.1rem);
+			padding-bottom: 2rem;
+			box-shadow: 7px 9px 13px rgba(0, 0, 0, 0.15);
+			.info {
+				margin: 1rem 0;
+				font-size: 1.5rem;
+				color: rgb(104, 100, 100);
+			}
+			&--item {
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				max-width: 10rem;
-				height: 4rem;
-				width: 100%;
-				margin-right: 2rem;
-				font-size: 1.7rem;
-				box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.1);
-				border-radius: 1rem;
-				background-color: $color-primary;
-				color: $color-tertiary;
-				cursor: pointer;
-				padding: 1rem;
-				text-decoration: none;
-				transition: 0.1s all ease-in-out;
-				&:active {
-					transform: translateY(2px) scale(0.99);
-					box-shadow: none;
+
+				.nav--btn {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					max-width: 10rem;
+					height: 4rem;
+					width: 100%;
+					margin-right: 2rem;
+					font-size: 1.7rem;
+					box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.1);
+					border-radius: 1rem;
+					background-color: $color-primary;
+					color: $color-tertiary;
+					cursor: pointer;
+					padding: 1rem;
+					text-decoration: none;
+					transition: 0.1s all ease-in-out;
+					&:active {
+						transform: translateY(2px) scale(0.99);
+						box-shadow: none;
+					}
+				}
+				.nav--link {
+					font-size: 1.7rem;
+
+					text-decoration: none;
+
+					color: rgba($color-secondary, $alpha: 0.8);
+					margin-bottom: 0.5rem;
+					&:hover {
+						color: $color-secondary;
+					}
+				}
+				.danger {
+					margin-top: 1rem;
+					background-color: transparent;
+					color: $color-secondary;
+					border: 1px solid $color-secondary;
+					&:hover {
+						background-color: $color-danger;
+						color: $color-tertiary;
+						border-color: $color-danger;
+					}
 				}
 			}
+		}
+	}
+	&--user {
+		height: 4rem;
+		border-radius: 1rem;
+		width: 100%;
+		text-align: center;
+		font-size: 2rem;
+		color: $color-primary;
+		cursor: pointer;
+		padding: 1rem;
+		text-decoration: none;
+		transition: 0.1s all ease-in-out;
+		&:active {
+			transform: translateY(2px) scale(0.99);
+			box-shadow: none;
 		}
 	}
 }
@@ -97,7 +139,7 @@ nav {
 	color: $color-primary;
 }
 .menu {
-	width: 25%;
+	width: 20%;
 	display: flex;
 	align-items: center;
 	justify-content: space-around;

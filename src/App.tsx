@@ -6,48 +6,41 @@ import { userContext } from './Contexts/userContext';
 import Index from './Pages/Index/Index';
 import SignUp from './Pages/SignUp/SignUp';
 import axios from 'axios';
-import { encrypt } from './Utils/Encryption';
+import { decrypt, encrypt } from './Utils/Encryption';
+import useLocalStorage from './Hooks/useLocalStorage';
+import { unknownUserType, userType } from './Interfaces';
+import Verify from './Components/Verify/Verify';
 function App() {
-	const [jwtToken, setJwtToken] = useState<string>('');
-	const [user, setUser] = useState<
-		| {
-				name: string;
-				ip: string;
-				isUserLogin: true;
-				email: string;
-				downloads: number;
-		  }
-		| {
-				ip: string;
-				isUserLogin: false;
-				downloads: number;
-		  }
-	>({
-		ip: '',
+	const [jwtToken, setJwtToken] = useLocalStorage('fanfic2book-jwt-token', '');
+	const [user, setUser] = useState<userType | unknownUserType>({
 		isUserLogin: false,
 		downloads: 0,
 	});
 	useEffect(() => {
 		axios.get('https://api.ipify.org/?format=json').then((res) => {
-			setUser({
+			setUser((prevUser) => ({
+				...prevUser,
 				ip: res.data.ip,
-				isUserLogin: false,
-				downloads: 0,
-			});
+			}));
 			console.log(res.data);
 		});
-		// axios({
-		// 	method: 'post',
-		// 	url: 'http://localhost:5005/me',
-		// 	headers: {
-		// 		Authorization: `Bearer ${jwtToken}`,
-		// 	},
-		// 	data: {
-		// 		ip: encrypt(user.ip),
-		// 		isUserLogin: user.isUserLogin,
-		// 	}
-		// })
-		console.log(process.env);
+		axios({
+			method: 'get',
+			url: `${process.env.REACT_APP_API_URL}/me`,
+			headers: {
+				Authorization: `Bearer ${jwtToken}`,
+			},
+		}).then((res) => {
+			console.log(res.data);
+			setUser((prevUser) => ({
+				name: decrypt(res.data.name, process.env.REACT_APP_ENCRIPTION_KEY),
+				isUserLogin: true,
+				downloads: res.data.downloads,
+				deviceID: res.data.deviceID,
+				email: decrypt(res.data.email, process.env.REACT_APP_ENCRIPTION_KEY),
+				userid: res.data.userid,
+			}));
+		});
 	}, []);
 	return (
 		<div className='App'>
@@ -56,6 +49,7 @@ function App() {
 					<Routes>
 						<Route path='/' element={<Index />} />
 						<Route path='/signup' element={<SignUp />} />
+						<Route path='/verify' element={<Verify />} />
 					</Routes>
 				</jwtContext.Provider>
 			</userContext.Provider>

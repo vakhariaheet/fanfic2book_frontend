@@ -1,13 +1,27 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { jwtContext } from '../../Contexts/jwtTokenContext';
+import { userContext } from '../../Contexts/userContext';
 import './Navbar.scss';
 
 export interface NavbarProps {}
 
 const Navbar: React.FC<NavbarProps> = () => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [userDownloads, setUserDownloads] = React.useState<number>(0);
+	const { user, setUser } = useContext(userContext);
+	const { jwtToken, setJwtToken } = useContext(jwtContext);
 	const [isDropdownHover, setIsDropDownHover] = React.useState<boolean>(false);
+	const onLogOut = () => {
+		axios({
+			method: 'post',
+			url: `${process.env.REACT_APP_API_URL}/logout`,
+			headers: {
+				Authorization: `Bearer ${jwtToken}`,
+			},
+		}).then(console.log);
+		console.log(jwtToken);
+	};
 	return (
 		<nav className=''>
 			<input type='checkbox' id='mode' />
@@ -83,25 +97,65 @@ l-43 30 -286 2 c-158 1 -301 -2 -318 -6z'
 				<div
 					className='navbar--dropdown'
 					style={{
-						border: isDropdownHover ? '1px solid #212121' : 'none',
+						border: isDropdownHover
+							? '1px solid #212121'
+							: '1px solid transparent',
 					}}
 				>
-					<div
-						className='downloads'
-						onClick={() => setIsDropDownHover((preValue) => !preValue)}
-					>
-						<span>Downloads : </span>
-						<span className='user-downloads'>{userDownloads}</span>
-						<span className='total-downloads'> / 5</span>
-					</div>
+					{!user.isUserLogin ? (
+						<div
+							className='downloads'
+							onClick={() => setIsDropDownHover((preValue) => !preValue)}
+						>
+							<span>Downloads : </span>
+							<span className='user-downloads'>{user.downloads}</span>
+							<span className='total-downloads'> / 5</span>
+						</div>
+					) : (
+						<div
+							className='navbar--user'
+							onClick={() => setIsDropDownHover((preValue) => !preValue)}
+						>
+							Hello {user.name.split(' ')[0]}
+						</div>
+					)}
 					{isDropdownHover && (
 						<div className='navbar--dropdown--content'>
-							<div className='info navbar--dropdown--content--item'>
-								Sign Up Now to Access Premium features for free{' '}
-							</div>
-							<div className='navbar--dropdown--content--item'>
-								<Link to='/signup'>Sign Up</Link>
-							</div>
+							{user.isUserLogin ? (
+								<>
+									<div className='navbar--dropdown--content--item'>
+										<Link to='/setting' className='nav--link'>
+											Setting
+										</Link>
+									</div>
+									<div className='navbar--dropdown--content--item'>
+										<Link to='/favourites' className='nav--link'>
+											My Favourites
+										</Link>
+									</div>
+									<div className='navbar--dropdown--content--item'>
+										<Link to='/downloads' className='nav--link'>
+											My Downloads
+										</Link>
+									</div>
+									<div className='navbar--dropdown--content--item'>
+										<Link to='/' className='nav--btn danger' onClick={onLogOut}>
+											Logout
+										</Link>
+									</div>
+								</>
+							) : (
+								<>
+									<div className='info navbar--dropdown--content--item'>
+										Sign Up Now to Access Premium features for free{' '}
+									</div>
+									<div className='navbar--dropdown--content--item'>
+										<Link to='/signup' className='nav--btn'>
+											Sign Up
+										</Link>
+									</div>
+								</>
+							)}
 						</div>
 					)}
 				</div>

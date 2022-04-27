@@ -1,11 +1,13 @@
 import React, { useContext, useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
-import { encrypt } from '../../Utils/Encryption';
+import { decrypt, encrypt } from '../../Utils/Encryption';
 import { Verifier } from 'verifierjs';
+import { useNavigate } from 'react-router-dom';
 import './SignUp.scss';
 import Header from '../../Components/Header/Header';
 import useLocalStorage from '../../Hooks/useLocalStorage';
 import { jwtContext } from '../../Contexts/jwtTokenContext';
+import { userContext } from '../../Contexts/userContext';
 export interface SignUpProps {}
 
 const SignUp: React.FC<SignUpProps> = () => {
@@ -14,6 +16,9 @@ const SignUp: React.FC<SignUpProps> = () => {
 	const [email, setEmail] = useState<string>('');
 	const [confirmPassword, setConfirmPassword] = useState<string>('');
 	const { jwtToken, setJwtToken } = useContext(jwtContext);
+	const { user, setUser } = useContext(userContext);
+
+	const navigate = useNavigate();
 	const onSignUp = (e: any) => {
 		if (
 			!name ||
@@ -31,9 +36,44 @@ const SignUp: React.FC<SignUpProps> = () => {
 				passwordCipher: encrypt(password, process.env.REACT_APP_ENCRIPTION_KEY),
 				emailCipher: encrypt(email, process.env.REACT_APP_ENCRIPTION_KEY),
 			})
-			.then((res: AxiosResponse) => {
-				console.log(res.data);
-			});
+			.then(
+				(
+					res: AxiosResponse<
+						| {
+								message: string;
+								error: string;
+						  }
+						| {
+								userid: string;
+								name: string;
+								token: string;
+								message: 'User created successfully';
+								email: string;
+								ip: string;
+						  }
+					>,
+				) => {
+					if ('error' in res.data) {
+						return console.log(res.status, res.data.error);
+					}
+					setJwtToken(res.data.token);
+					setUser({
+						name: decrypt(res.data.name, process.env.REACT_APP_ENCRIPTION_KEY),
+						ip: decrypt(res.data.ip, process.env.REACT_APP_ENCRIPTION_KEY),
+						isUserLogin: true,
+						downloads: 0,
+						userid: decrypt(
+							res.data.userid,
+							process.env.REACT_APP_ENCRIPTION_KEY,
+						),
+						email: decrypt(
+							res.data.email,
+							process.env.REACT_APP_ENCRIPTION_KEY,
+						),
+					});
+					navigate('/', { replace: true, state: { user: user } });
+				},
+			);
 	};
 	return (
 		<div>

@@ -23,3 +23,15 @@ export interface bookType {
 		data: string;
 	}[];
 }
+export interface unknownUserType {
+	isUserLogin: false;
+	downloads: number;
+}
+export interface userType {
+	name: string;
+	isUserLogin: true;
+	userid: string;
+	deviceID: string;
+	email: string;
+	downloads: number;
+}
