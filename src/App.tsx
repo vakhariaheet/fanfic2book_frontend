@@ -6,7 +6,7 @@ import { userContext } from './Contexts/userContext';
 import Index from './Pages/Index/Index';
 import SignUp from './Pages/SignUp/SignUp';
 import axios from 'axios';
-import { decrypt, encrypt } from './Utils/Encryption';
+import { decrypt } from './Utils/Encryption';
 import useLocalStorage from './Hooks/useLocalStorage';
 import { unknownUserType, userType } from './Interfaces';
 import Verify from './Components/Verify/Verify';
@@ -41,6 +41,7 @@ function App() {
 				userid: res.data.userid,
 			}));
 		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	return (
 		<div className='App'>

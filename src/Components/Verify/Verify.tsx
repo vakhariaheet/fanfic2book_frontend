@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import './Verify.scss';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 export interface VerifyProps {}
 
@@ -19,6 +19,7 @@ const Verify: React.FC<VerifyProps> = () => {
 				navigate('/');
 			}
 		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	console.log(user.get('token'));
 	return <div className=''></div>;

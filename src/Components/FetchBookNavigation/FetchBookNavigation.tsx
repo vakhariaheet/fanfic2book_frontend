@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import useLocalStorage from '../../Hooks/useLocalStorage';
 import Header from '../Header/Header';
 import './FetchBookNavigation.scss';
 

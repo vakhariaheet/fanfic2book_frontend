@@ -5,7 +5,6 @@ import { Verifier } from 'verifierjs';
 import { useNavigate } from 'react-router-dom';
 import './SignUp.scss';
 import Header from '../../Components/Header/Header';
-import useLocalStorage from '../../Hooks/useLocalStorage';
 import { jwtContext } from '../../Contexts/jwtTokenContext';
 import { userContext } from '../../Contexts/userContext';
 export interface SignUpProps {}
@@ -15,7 +14,7 @@ const SignUp: React.FC<SignUpProps> = () => {
 	const [password, setPassword] = useState<string>('');
 	const [email, setEmail] = useState<string>('');
 	const [confirmPassword, setConfirmPassword] = useState<string>('');
-	const { jwtToken, setJwtToken } = useContext(jwtContext);
+	const { setJwtToken } = useContext(jwtContext);
 	const { user, setUser } = useContext(userContext);
 
 	const navigate = useNavigate();

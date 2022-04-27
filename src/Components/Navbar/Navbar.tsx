@@ -9,8 +9,8 @@ export interface NavbarProps {}
 
 const Navbar: React.FC<NavbarProps> = () => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { user, setUser } = useContext(userContext);
-	const { jwtToken, setJwtToken } = useContext(jwtContext);
+	const { user } = useContext(userContext);
+	const { jwtToken } = useContext(jwtContext);
 	const [isDropdownHover, setIsDropDownHover] = React.useState<boolean>(false);
 	const onLogOut = () => {
 		axios({
