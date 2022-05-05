@@ -1,7 +1,7 @@
 export interface bookType {
 	buffer: Buffer;
 	author: string;
-	chapters: string;
+	chapterLength: string;
 	description: string;
 	authorUrl: string;
 	genre: string;
@@ -18,9 +18,10 @@ export interface bookType {
 	cover: string;
 	url: string;
 	extension: 'epub' | 'pdf' | 'html';
-	book: {
+	chapters: {
 		title: string;
-		data: string;
+		content: string;
+		url: string;
 	}[];
 }
 export interface unknownUserType {

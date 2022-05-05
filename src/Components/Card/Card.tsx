@@ -10,9 +10,11 @@ export interface CardProps {
 		buffer: Buffer;
 		uid: string;
 	};
+	sendDownloadedBookEmail: (bookInfo: bookType, buffer: Buffer) => void;
 }
 
-const Card: React.FC<CardProps> = ({ book, link }) => {
+const Card: React.FC<CardProps> = ({ book, link, sendDownloadedBookEmail }) => {
+	console.log(book);
 	const download = () => {
 		if (!link) return;
 		const anchor = document.createElement('a');
@@ -27,6 +29,7 @@ const Card: React.FC<CardProps> = ({ book, link }) => {
 		document.body.removeChild(anchor);
 		window.URL.revokeObjectURL(url);
 	};
+
 	return (
 		<div className='card'>
 			<div className='card--image'>
@@ -47,7 +50,7 @@ const Card: React.FC<CardProps> = ({ book, link }) => {
 					</a>
 				</p>
 				{book.words && <p>Word Count: {book.words} </p>}
-				<p>Chapters:{book.chapters || 1} </p>
+				<p>Chapters:{book.chapterLength || 1} </p>
 				<p>
 					Publish : {moment(book.published, 'YYYY-MM-DD').format('Do MMM YYYY')}{' '}
 				</p>
@@ -67,7 +70,12 @@ const Card: React.FC<CardProps> = ({ book, link }) => {
 						<button className='btn' onClick={download}>
 							Download
 						</button>
-						<button className='btn'>Send To Email</button>
+						<button
+							className='btn'
+							onClick={() => sendDownloadedBookEmail(book, link.buffer)}
+						>
+							Send To Email
+						</button>
 					</div>
 				)}
 			</div>

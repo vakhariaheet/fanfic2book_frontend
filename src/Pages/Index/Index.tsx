@@ -55,7 +55,7 @@ export default function Index() {
 		});
 		socket.on('success', async (data: any) => {
 			setIsAllBookFetched(data.isLast);
-			console.log(data.isLast, data.uid);
+			console.log(data);
 			setUser((prevUser: userType | unknownUserType) => {
 				return {
 					...prevUser,
@@ -90,6 +90,7 @@ export default function Index() {
 			}
 		});
 		socket.on('bookinfo', (data: bookType) => {
+			console.log(data);
 			if (cardContainer.current) {
 				cardContainer.current.scrollIntoView({ behavior: 'smooth' });
 				const tempBooks = books;
@@ -100,6 +101,7 @@ export default function Index() {
 				if (!isBookExist) {
 					tempBooks.push(data);
 					setBooks(tempBooks);
+					console.log(tempBooks);
 					setCurrentPage(
 						books.length % 2 === 0 ? books.length / 2 : (books.length + 1) / 2,
 					);
@@ -137,6 +139,16 @@ export default function Index() {
 			extension,
 		});
 	};
+	const sendDownloadedBookEmail = (bookInfo: bookType, buffer: Buffer) => {
+		if (!forceUpdateEle.current) return;
+		socket.emit('sendtoemail', {
+			...getURLInfo(bookURL),
+			extension,
+			buffer,
+			bookInfo,
+			forceUpdate: forceUpdateEle.current.checked,
+		});
+	};
 	const createZip = async () => {
 		const zip = new JSZip();
 		for (let bookLink of bookLinks) {
@@ -171,6 +183,7 @@ export default function Index() {
 								key={index}
 								book={book}
 								link={bookLinks.find((link) => link.uid === book.uid)}
+								sendDownloadedBookEmail={sendDownloadedBookEmail}
 							/>
 						);
 					} else return <></>;
