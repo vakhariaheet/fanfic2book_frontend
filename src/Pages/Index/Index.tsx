@@ -33,7 +33,7 @@ export default function Index() {
 	>([]);
 	const { user, setUser } = React.useContext(userContext);
 	useEffect(() => {
-		socket = io('http://localhost:3000');
+		socket = io(process.env.REACT_APP_SOCKET_URL);
 		console.log(`Connecting socket...`);
 		return () => {
 			if (socket) return socket.disconnect();
