@@ -57,7 +57,7 @@ const FetchBookNavigation: React.FC<FetchBookNavigationProps> = ({
 						className='text'
 						onClick={() => setIsDropDownSelect((preValue) => !preValue)}
 					>
-						{extension.toUpperCase()}{' '}
+						{extension.toUpperCase()}
 						<svg
 							version={'1.0'}
 							className={isDropdownSelect ? 'arrow-up' : 'arrow-down'}
